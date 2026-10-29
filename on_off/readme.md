@@ -104,8 +104,8 @@ Alasan perubahan 2 dan 3: motor diam harus melawan gesekan statis, dan belitanny
 | Perintah | Duty | Balasan ESP32 | Respons motor |
 |---|---|---|---|
 | `2` | 100 | `Motor pelan (duty 100)` | Berputar pelan |
-| `3` | 150 | `Motor sedang (duty 150)` | Berputar cukup kencang |
-| `1` | 205 | `LED is on !!!` | Berputar sangat pelan |
+| `3` | 150 | `Motor sedang (duty 150)` | Berputar cukup pelan |
+| `1` | 205 | `LED is on !!!` | Berputar cukup kencang |
 | `4` | 255 | `Motor cepat (duty 255)` | Berputar kencang |
 | `0` | 0 | `LED is off !!!` | motor berhenti |
 
