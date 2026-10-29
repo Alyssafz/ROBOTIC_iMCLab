@@ -1,15 +1,3 @@
-// ============================================================
-// Modul 1 - On/Off Motor DC dengan 3 level kecepatan (v3)
-// Modifikasi dari kode dosen (on_off_Motor.ino)
-//
-// Perintah via Serial Monitor:
-//   1 = Motor ON (default, duty 205)
-//   0 = Motor OFF
-//   2 = Pelan   (duty 100)
-//   3 = Sedang  (duty 150)
-//   4 = Cepat   (duty 255)
-// ============================================================
-
 int ledPin = 2;
 char myData = 0;
 
@@ -18,15 +6,14 @@ int motor1Pin2 = 26;
 int enable1Pin = 12;
 
 // Setting PWM properties
-const int freq = 5000;          // DIUBAH v3: 30000 -> 5000 Hz (torsi lebih baik di duty rendah)
+const int freq = 5000;  // DIUBAH v3: 30000 -> 5000 Hz 
 const int pwmChannel = 0;
 const int resolution = 8;
 int dutyCycle = 200;
 
-// BARU v3: kick-start untuk mengatasi gesekan awal motor
-const int kickDuty = 255;       // duty penuh saat awal start
-const int kickTime = 60;        // lama dorongan awal (ms)
-bool motorRunning = false;      // status motor sedang berputar atau tidak
+const int kickDuty = 255;       
+const int kickTime = 60;       
+bool motorRunning = false;      
 
 const byte pin_rpm = 13;
 int volatile rev = 0;
@@ -55,7 +42,7 @@ void MotorOn(int speed)
   digitalWrite(motor1Pin1, HIGH);
   digitalWrite(motor1Pin2, LOW);
 
-  // Kick-start: hanya jika motor sebelumnya diam dan kecepatan target rendah
+  // hanya jika motor sebelumnya diam dan kecepatan target rendah
   if (!motorRunning && speed < kickDuty) {
     ledcWrite(pwmChannel, kickDuty);
     delay(kickTime);
