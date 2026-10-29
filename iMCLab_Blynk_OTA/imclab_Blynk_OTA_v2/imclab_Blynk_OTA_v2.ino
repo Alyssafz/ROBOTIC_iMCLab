@@ -1,21 +1,8 @@
-/*********************************************************
- * iMCLab + ESP32 + Blynk IoT + OTA (Blynk.Air)
- * Firmware 1.1.0 (versi baru untuk diuji lewat OTA)
- *
- * Beda dari 1.0.0:
- *  - level PELAN naik dari duty 100 ke 120
- *  - LED biru berkedip 3 kali setiap kali boot (penanda firmware baru)
- *
- * Dasar: imclab_Blynk_v3.ino (Modul 3)
- * Tambahan: pembaruan firmware lewat WiFi (OTA) dari Blynk.Air
- *********************************************************/
 
 #define BLYNK_TEMPLATE_ID "TMPL6ovVsijth"
 #define BLYNK_TEMPLATE_NAME "New Template"
 #define BLYNK_AUTH_TOKEN "1yeEOj7V_9e0cwJiufx7s6pisnZc7D5W"
 
-// Versi firmware. Blynk.Air hanya mengirim update bila versinya berbeda.
-// Naikkan angka ini setiap kali membuat file .bin baru.
 #define BLYNK_FIRMWARE_VERSION "1.1.0"
 
 #include <WiFi.h>
@@ -187,8 +174,7 @@ void kirimKeBlynk()
 }
 
 // Dipanggil setiap kali tersambung (termasuk setelah reset dan setelah OTA).
-// Dasbor dipaksa mengikuti keadaan motor yang sebenarnya, bukan sebaliknya,
-// sehingga motor tidak menyala sendiri dari nilai lama yang tersimpan di server.
+
 BLYNK_CONNECTED()
 {
   kirimKeBlynk();
@@ -250,10 +236,6 @@ BLYNK_WRITE(V4)
   Serial.println(")");
 }
 
-// ============================================================
-// OTA dari Blynk.Air
-// ============================================================
-
 void otaProgress(size_t sudah, size_t total)
 {
   static int terakhir = -1;
@@ -272,17 +254,15 @@ void otaProgress(size_t sudah, size_t total)
 }
 
 // Blynk.Air mengirim alamat (URL) file .bin lewat pin internal OTA.
-// Perangkat mengunduh file itu sendiri, menulisnya ke flash, lalu restart.
+
 BLYNK_WRITE(InternalPinOTA)
 {
   String url = param.asString();
 
   Serial.println("OTA: perintah update diterima");
 
-  // Keselamatan: motor dimatikan sebelum proses unduh dimulai
   motorStop();
 
-  // Sesuai dokumentasi Blynk: putuskan koneksi Blynk sebelum mengunduh
   Blynk.disconnect();
 
   HTTPClient http;
@@ -384,11 +364,9 @@ void setup()
     1000L,
     kirimKeBlynk);
 
-  Serial.println("================================");
   Serial.print("iMCLab + Blynk + OTA Ready (v");
   Serial.print(BLYNK_FIRMWARE_VERSION);
   Serial.println(")");
-  Serial.println("================================");
   Serial.println("1 = ON (duty 205)");
   Serial.println("0 = OFF");
   Serial.println("2 = Pelan  (duty 120)");
